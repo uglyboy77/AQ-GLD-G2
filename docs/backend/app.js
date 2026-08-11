@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use('/docs', express.static(path.join(__dirname, '..')));
 
 // MongoDB Atlas connection
-const MONGO_URI = process.env.MONGODB_URI || 'mongodb+srv://baffourbrenya_db_user:wd2iHZ6eTFR2XJON@aq-gld-g2.ofp3ekn.mongodb.net/?appName=AQ-GLD-G2';
+const MONGO_URI = process.env.MONGODB_URI;
 
 mongoose.connect(MONGO_URI)
   .then(async () => {

@@ -188,8 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Fetch Latest Reading & History concurrently
             const [latestRes, historyRes] = await Promise.all([
-                fetch('http://localhost:3000/sensor/latest', { headers }),
-                fetch('http://localhost:3000/sensor/history?limit=7', { headers })
+                fetch(`${API_BASE}/sensor/latest`, { headers }),
+                fetch(`${API_BASE}/sensor/history?limit=7`, { headers })
             ]);
 
             if (latestRes.status === 404) {

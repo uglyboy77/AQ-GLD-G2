@@ -3,7 +3,8 @@
  * Handles User Login, Token Storage in localStorage, and fetching /latest and /history sensor data.
  */
 
-const API_BASE_URL = 'http://localhost:3000'; // Change to match server IP/domain
+const API_BASE_URL = 'https://aq-gld-g2-1.onrender.com
+'; // Change to match server IP/domain
 
 const Auth = {
   /**

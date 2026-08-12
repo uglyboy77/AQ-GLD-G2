@@ -48,7 +48,7 @@ document.getElementById('btnSaveProfile').addEventListener('click', async () => 
   };
 
   try {
-    const res = await fetch('http://localhost:3000/auth/profile', {
+        const res = await fetch(`${API_BASE}/auth/profile`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

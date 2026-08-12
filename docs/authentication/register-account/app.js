@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileToggle = document.getElementById('mobileToggle');
     const signIn = document.querySelector('.sign-in-link');
     const supportBtn = document.querySelector('.support-btn');
-    const registerForm = document.getElementById('registerForm');
+    const registerForm = document.getElementById('register-form');
 
     const API_BASE = "https://aq-gld-g2-1.onrender.com";
 

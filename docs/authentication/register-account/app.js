@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        console.log("Form submit handler fired");
 
         const fullName = document.getElementById('fullName').value;
         const email = document.getElementById('emailAddress').value;

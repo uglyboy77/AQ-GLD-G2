@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const signIn = document.querySelector('.sign-in-link');
     const supportBtn = document.querySelector('.support-btn');
     const registerForm = document.getElementById('registerForm');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+
 
     const API_BASE = "https://aq-gld-g2-1.onrender.com";
 

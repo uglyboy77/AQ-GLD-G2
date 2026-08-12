@@ -86,7 +86,7 @@ router.post('/reset-password-request', async (req, res) => {
       }
     });
 
-    const resetLink = `http://localhost:3000/docs/password-reset-ui/index.html?token=${token}`;
+    const resetLink = `https://uglyboy77.github.io/AQ-GLD-G2/password-reset-ui/index.html?token=${token}`;
 
     await transporter.sendMail({
       to: user.email,

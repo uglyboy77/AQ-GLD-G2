@@ -1,18 +1,28 @@
-const mobileToggle = document.getElementById('mobileToggle');
-const navTabs = document.getElementById('navTabs');
-const signIn = document.querySelector('.sign-in-link');
-const supportBtn = document.querySelector('.support-btn');
-
 const API_BASE = "https://aq-gld-g2-1.onrender.com";
 
-mobileToggle.addEventListener('click', () => {
-    navTabs.classList.toggle('mobile-open');
-    signIn.classList.toggle('mobile-open');
-    supportBtn.classList.toggle('mobile-open');
-    
-});
-document.addEventListener('DOMContentLoaded', fetchProfile);
+document.addEventListener('DOMContentLoaded', () => {
 
+  const mobileToggle = document.getElementById('mobileToggle');
+  const navTabs = document.getElementById('navTabs');
+  const signIn = document.querySelector('.sign-in-link');
+  const supportBtn = document.querySelector('.support-btn');
+
+  if (mobileToggle && navTabs) {
+    mobileToggle.addEventListener('click', () => {
+      navTabs.classList.toggle('mobile-open');
+      if (signIn) signIn.classList.toggle('mobile-open');
+      if (supportBtn) supportBtn.classList.toggle('mobile-open');
+    });
+  }
+    
+  fetchProfile();
+  const btnSaveProfile = document.getElementById('btnSaveProfile');
+  if (btnSaveProfile) {
+    btnSaveProfile.addEventListener('click', saveProfile);
+  }
+});
+
+// Fetch Profile Function
 async function fetchProfile() {
   const token = localStorage.getItem('token');
   if (!token) return;
@@ -21,34 +31,53 @@ async function fetchProfile() {
     const res = await fetch(`${API_BASE}/auth/profile`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
+    
     const user = await res.json();
 
     if (res.ok) {
-      document.getElementById('displayName').value = user.fullName || '';
-      document.getElementById('emailAddress').value = user.email || '';
-      document.getElementById('phoneNumber').value = user.phoneNumber || '';
-      document.getElementById('whatsappNumber').value = user.whatsappNumber || '';
+      const displayName = document.getElementById('displayName');
+      const emailAddress = document.getElementById('emailAddress');
+      const phoneNumber = document.getElementById('phoneNumber');
+      const whatsappNumber = document.getElementById('whatsappNumber');
+
+      if (displayName) displayName.value = user.fullName || '';
+      if (emailAddress) emailAddress.value = user.email || '';
+      if (phoneNumber) phoneNumber.value = user.phoneNumber || '';
+      if (whatsappNumber) whatsappNumber.value = user.whatsappNumber || '';
     } else {
       console.error(user.error || 'Failed to fetch profile');
+      // If token is invalid or expired, clear it
+      if (res.status === 401) {
+        localStorage.removeItem('token');
+      }
     }
   } catch (err) {
     console.error('Error connecting to server', err);
   }
 }
 
-document.getElementById('btnSaveProfile').addEventListener('click', async () => {
+// Save Profile Function
+async function saveProfile() {
   const token = localStorage.getItem('token');
-  if (!token) return;
+  if (!token) {
+    alert('Please log in to save your profile.');
+    return;
+  }
+
+  const displayName = document.getElementById('displayName');
+  const emailAddress = document.getElementById('emailAddress');
+  const phoneNumber = document.getElementById('phoneNumber');
+  const whatsappNumber = document.getElementById('whatsappNumber');
 
   const profileData = {
-    fullName: document.getElementById('displayName').value,
-    email: document.getElementById('emailAddress').value,
-    phoneNumber: document.getElementById('phoneNumber').value,
-    whatsappNumber: document.getElementById('whatsappNumber').value
+    fullName: displayName ? displayName.value : '',
+    email: emailAddress ? emailAddress.value : '',
+    phoneNumber: phoneNumber ? phoneNumber.value : '',
+    whatsappNumber: whatsappNumber ? whatsappNumber.value : ''
   };
 
   try {
-        const res = await fetch(`${API_BASE}/auth/profile`, {
+    const res = await fetch(`${API_BASE}/auth/profile`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -58,15 +87,18 @@ document.getElementById('btnSaveProfile').addEventListener('click', async () => 
     });
 
     const updatedUser = await res.json();
+
     if (res.ok) {
       alert('Profile updated successfully!');
     } else {
       console.error(updatedUser.error || 'Failed to update profile');
+      alert(updatedUser.error || 'Failed to update profile');
     }
   } catch (err) {
     console.error('Error updating profile', err);
+    alert('Error connecting to server while updating profile.');
   }
-});
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     
